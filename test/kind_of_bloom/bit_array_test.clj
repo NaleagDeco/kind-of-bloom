@@ -12,4 +12,5 @@
       (set-bit! f x 1)
       (is (= 1 (get-bit f x))))
     (doseq [x (range 0 n)]
-      (set-bit! f x 0))))
+      (set-bit! f x 0)
+      (is (= 0 (get-bit f x))))))
