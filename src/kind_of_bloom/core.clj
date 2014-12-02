@@ -10,4 +10,15 @@
   (bf :hashes))
 
 (defn false-positive-rate [num-hashes filter-length expected-amount]
-  (- 1 (exp (/ (* -1 num-hashes expected-amount) filter-length))))
+  (- 1 (Math/exp (/ (* -1 num-hashes expected-amount) filter-length))))
+
+(defn add-item [bf item]
+  (let [bits (map (fn [f] (f item)) (bf :hashes))
+        new-array (aclone (bf :array-data))]
+    (doseq [i bits]
+      (aset-boolean new-array i true))
+    {:hashes (bf :hashes) :array-data new-array}))
+
+(defn in-filter [bf item]
+  (let [bits (map (fn [f] (f item)) (bf :hashes))]
+    (every? identity (map (fn [i] (aget (bf :array-data) i)) bits))))
